@@ -23,13 +23,13 @@ inputs:
     description: "Author."
     required: false
     default: "bnaya@weknow.network"
-  nuget-cred:
-    description: "NuGet credentials (secrets.UPLOAD_PACKAGE_LOCAL)."
-    required: true
-  repo-name:
-    description: "name of the repository (github.repository)."
-    required: true
-    default: ${{ github.repository }}
+#  nuget-cred:
+#    description: "NuGet credentials (secrets.UPLOAD_PACKAGE_LOCAL)."
+#    required: true
+#  repo-name:
+#    description: "name of the repository (github.repository)."
+#    required: true
+#    default: ${{ github.repository }}
 
 runs:
   using: "composite"
