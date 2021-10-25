@@ -1,0 +1,63 @@
+name: Deploy WeKnow Packages
+description: "Common workflow of deploying WeKnow Packages"
+
+# doc: https://docs.github.com/en/actions
+# custom: https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
+# variables: https://docs.github.com/en/actions/learn-github-actions/environment-variables
+# secrets: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#example-17
+
+inputs:
+  build-config:
+    description: "Build configuration like Release, Debug, etc."
+    required: false
+    default: "ProjRef"
+  dotnet-version:
+    description: "The .NET version."
+    required: false
+    default: "6.0.x"
+  include-prerelease:
+    description: "Indicate whether to include prerelease .NET version."
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: Increment Version
+      run: |
+        perl -pi -e 's/([0-9]+)\.([0-9]+)\.([0-9]+)/"$1.$2.${\( $3+1 )}"/eg' Directory.Build.props
+      shell: bash
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v7
+      with:
+        author_name: CI/CD
+        author_email: bnaya@weknow.network.com
+        message: "Increment Version"
+        add: "Directory.Build.props"
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+        include-prerelease: ${{ inputs.include-prerelease }}
+
+    - name: Restore dependencies
+      run: dotnet restore /property:Configuration=${{ inputs.build-config }}
+      shell: bash
+    - name: Build
+      run: dotnet build  --configuration ${{ inputs.build-config }} --no-restore -o out
+      shell: bash
+    - name: Test
+      run: dotnet test **/*.UnitTests --configuration ${{ inputs.build-config }} --no-restore --no-build --verbosity normal -o out
+      shell: bash
+
+    - name: GitHub Package Registry Tool Install
+      run: |
+        dotnet tool install --global --verbosity minimal --no-cache gpr
+      shell: bash
+    - name: NuGet Push with GPR
+      run: gpr push --api-key ${{ secrets.UPLOAD_PACKAGE_LOCAL }} --repository ${{ github.repository }} --retries 3 **/*.nupkg
+      shell: bash
