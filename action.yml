@@ -64,11 +64,10 @@ runs:
     - name: Test
       run: dotnet test **/*.UnitTests --configuration ${{ inputs.build-config }} --no-restore --no-build --verbosity normal -o out
       shell: bash
-
-    - name: GitHub Package Registry Tool Install
-      run: |
-        dotnet tool install --global --verbosity minimal --no-cache gpr
-      shell: bash
-    - name: NuGet Push with GPR
-      run: gpr push --api-key ${{ inputs.nuget-cred }} --repository ${{ inputs.repo-name }} --retries 3 **/*.nupkg
-      shell: bash
+#    - name: GitHub Package Registry Tool Install
+#      run: |
+#        dotnet tool install --global --verbosity minimal --no-cache gpr
+#      shell: bash
+#    - name: NuGet Push with GPR
+#      run: gpr push --api-key ${{ inputs.nuget-cred }} --repository ${{ inputs.repo-name }} --retries 3 **/*.nupkg
+#      shell: bash
