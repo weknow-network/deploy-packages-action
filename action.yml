@@ -62,7 +62,7 @@ runs:
       run: dotnet build  --configuration ${{ inputs.build-config }} --no-restore -o out
       shell: bash
     - name: Test
-      run: dotnet test **/*.UnitTests --configuration ${{ inputs.build-config }} --no-restore --no-build --verbosity normal -o out
+      run: dotnet test --filter Category=CI --configuration ${{ inputs.build-config }} --no-restore --no-build --verbosity normal -o out
       shell: bash
 #    - name: GitHub Package Registry Tool Install
 #      run: |
