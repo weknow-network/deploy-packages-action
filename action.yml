@@ -19,6 +19,10 @@ inputs:
     description: "Indicate whether to include prerelease .NET version."
     required: false
     default: "true"
+  author-email:
+    description: "Author."
+    required: false
+    default: "bnaya@weknow.network"
 
 runs:
   using: "composite"
@@ -34,7 +38,7 @@ runs:
       uses: EndBug/add-and-commit@v7
       with:
         author_name: CI/CD
-        author_email: bnaya@weknow.network.com
+        author_email: ${{ inputs.author-email }}
         message: "Increment Version"
         add: "Directory.Build.props"
 
