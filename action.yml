@@ -6,6 +6,10 @@ description: "Common workflow of deploying WeKnow Packages"
 # variables: https://docs.github.com/en/actions/learn-github-actions/environment-variables
 # secrets: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#example-17
 
+# PUSH RELEASE:
+#  git tag -a -m "First version" v#
+# git push --follow-tags  
+
 inputs:
   build-config:
     description: "Build configuration like Release, Debug, etc."
