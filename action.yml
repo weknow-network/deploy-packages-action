@@ -8,7 +8,7 @@ description: "Common workflow of deploying WeKnow Packages"
 
 # PUSH RELEASE:
 #  git tag -a -m "First version" v#
-# git push --follow-tags  
+#  git push --follow-tags  
 
 inputs:
   build-config:
