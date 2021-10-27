@@ -10,7 +10,7 @@ inputs:
   build-config:
     description: "Build configuration like Release, Debug, etc."
     required: false
-    default: "ProjRef"
+    default: "Release"
   dotnet-version:
     description: "The .NET version."
     required: false
