@@ -60,7 +60,7 @@ runs:
         include-prerelease: ${{ inputs.include-prerelease }}
 
     - name: Restore dependencies
-      run: dotnet restore /property:configFile nuget.config /property:Configuration=${{ inputs.build-config }} 
+      run: dotnet restore /property:Configuration=${{ inputs.build-config }} 
       shell: bash
     - name: Build
       run: dotnet build  --configuration ${{ inputs.build-config }} --no-restore -o out
